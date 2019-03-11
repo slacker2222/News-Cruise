@@ -11,7 +11,7 @@ $.getJSON("/articles", function(data) {
   });
 }
 
-getResults():
+getResults();
   
   
   // Whenever someone clicks a p tag

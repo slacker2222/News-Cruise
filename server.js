@@ -3,13 +3,6 @@ var exphbs = require("express-handlebars");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
-// set handlebars as default templating engine
-// app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-// app.set("view engine", "handlebars");
-
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
 var axios = require("axios");
 var cheerio = require("cheerio");
 
@@ -37,15 +30,34 @@ mongoose.connect(mongoURI, { useNewUrlParser: true });
 
 // Routes
 
+//handlebars
+app.engine(
+  "handlebars",
+  exphbs({
+    defaultLayout: "main"
+  })
+);
+app.set("view engine", "handlebars");
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
 
-  axios.get("https://www.ussoccer.com/womens-national-team#tab-1").then(function(response) {
+axios.get("https://www.ussoccer.com/womens-national-team#tab-1").then(function(response) {
     // console.log(response.data);
     // Then, we load that into cheerio and save it to $ for a shorthand selector
-    var $ = cheerio.load(response.data);
+    const $ = cheerio.load(response.data);
+    let title = [];
+    let link = [];
+    let summaries = [];
+    let images = [];
+
+    //headline
+    $("h2.link-gray").each(function(i, element){
+      title = $(element).text();
+      title.push(title);
+    })
     
+
     // Now, we grab every h2 within an article tag, and do the following:
     $("div.pod-text").each(function(i, element) {
       // Save an empty result object

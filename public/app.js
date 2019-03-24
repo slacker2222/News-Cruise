@@ -6,7 +6,15 @@ $.getJSON("/articles", function(data) {
     // For each one
     for (var i = 0; i < data.length; i++) {
       // Display the apropos information on the page
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+      var title=$("<p>")
+        .attr("data-id", data[i]._id)
+        .text (data[i].title);
+      var link=$("<a>")
+        .attr ("href", data[i].link)
+        // /below will open a new tab
+        .attr ("target", "_blank")
+        .text ("view article")
+      $("#articles").append(title, link);
     }
   });
 }
@@ -17,6 +25,7 @@ getResults();
   // Whenever someone clicks a p tag
   $(document).on("click", "p", function() {
     // Empty the notes from the note section
+    // console.log("clicked")
     $("#notes").empty();
     // Save the id from the p tag
     var thisId = $(this).attr("data-id");

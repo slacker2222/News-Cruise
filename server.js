@@ -2,7 +2,6 @@ var express = require("express");
 var exphbs = require("express-handlebars");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-
 var axios = require("axios");
 var cheerio = require("cheerio");
 
@@ -58,10 +57,13 @@ axios.get("https://www.ussoccer.com/womens-national-team#tab-1").then(function(r
     })
     
 
-    // Now, we grab every h2 within an article tag, and do the following:
+    // Now, we grab every h2 within an article tag
     $("div.pod-text").each(function(i, element) {
+      summary = $(element).children("a").attr("href");
+      links.push(link);
       // Save an empty result object
       var result = {};
+
 
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(element)
